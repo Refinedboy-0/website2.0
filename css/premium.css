@@ -1,0 +1,413 @@
+/* ═══════════════════════════════════════════════════════════════════
+   REFINEDBOY — PREMIUM VISUAL LAYER v1.0
+   Archivo 100% aditivo. No sobreescribe funcionalidad existente.
+   Todas las animaciones usan transform/opacity → 60fps garantizado.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── NUEVAS VARIABLES ──────────────────────────────────────────────── */
+:root {
+  --ease-spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo:     cubic-bezier(0.19, 1,    0.22, 1);
+  --ease-out-quart:    cubic-bezier(0.25, 1,    0.5,  1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0,    0.24, 1);
+  --dur-xs:  100ms;
+  --dur-xl:  720ms;
+  --dur-2xl: 1100ms;
+  --glow-accent: rgba(124, 107, 72, 0.14);
+}
+
+/* ─── KEYFRAMES ─────────────────────────────────────────────────────── */
+@keyframes rb-fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes rb-scaleIn {
+  from { opacity: 0; transform: scale(0.93) translateY(18px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes rb-ripple {
+  to { transform: scale(3); opacity: 0; }
+}
+@keyframes rb-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(22,21,15,0);    }
+  60%       { box-shadow: 0 0 0 5px rgba(22,21,15,0.07); }
+}
+@keyframes rb-bar-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── HERO ENTRANCE SEQUENCE ────────────────────────────────────────── */
+/* premium.js añade body.hero-loaded para activar las animaciones.
+   En móvil y con reduced-motion se restauran inmediatamente (ver final). */
+.hero-copy .eyebrow,
+.hero-copy h1,
+.hero-copy p,
+.hero-cta        { opacity: 0; }
+#hero-showcase   { opacity: 0; }
+
+body.hero-loaded .hero-copy .eyebrow {
+  animation: rb-fadeUp var(--dur-l)  var(--ease-out-expo)  60ms  forwards;
+}
+body.hero-loaded .hero-copy h1 {
+  animation: rb-fadeUp var(--dur-xl) var(--ease-out-expo)  180ms forwards;
+}
+body.hero-loaded .hero-copy p {
+  animation: rb-fadeUp var(--dur-l)  var(--ease-out-expo)  340ms forwards;
+}
+body.hero-loaded .hero-cta {
+  animation: rb-fadeUp var(--dur-l)  var(--ease-out-expo)  460ms forwards;
+}
+body.hero-loaded #hero-showcase {
+  animation: rb-scaleIn var(--dur-xl) var(--ease-out-expo) 120ms forwards;
+}
+
+/* ─── PRODUCT CARDS — HOVER PREMIUM ────────────────────────────────── */
+.product-card {
+  transition:
+    opacity      var(--dur-l)  var(--ease),
+    transform    360ms         var(--ease-out-quart),
+    border-color var(--dur-s)  var(--ease),
+    box-shadow   360ms         var(--ease-out-quart) !important;
+  will-change: transform;
+}
+.product-card:hover {
+  transform: translateY(-7px) !important;
+  border-color: var(--ink-faint) !important;
+  box-shadow:
+    0 1px  4px  rgba(22,21,15,0.04),
+    0 6px  16px rgba(22,21,15,0.08),
+    0 22px 44px rgba(22,21,15,0.14) !important;
+}
+.product-card:active {
+  transform: translateY(-2px) scale(0.99) !important;
+  transition-duration: 70ms !important;
+}
+/* Imagen: zoom más lento y pronunciado */
+.product-media img {
+  transition: transform 600ms var(--ease-out-expo) !important;
+}
+.product-card:hover .product-media img {
+  transform: scale(1.08) !important;
+}
+/* Cuerpo sube levemente */
+.product-body {
+  transition: transform 360ms var(--ease-out-quart);
+}
+.product-card:hover .product-body {
+  transform: translateY(-2px);
+}
+/* Curator note: entrada con scale */
+.curator-note {
+  transform: translateY(-10px) scale(0.95) !important;
+  transition: opacity 260ms var(--ease), transform 320ms var(--ease-out-quart) !important;
+}
+.product-card:hover .curator-note,
+.product-card:focus-within .curator-note {
+  transform: translateY(0) scale(1) !important;
+  opacity: 1;
+}
+/* Warm glow en la media */
+.product-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124,107,72,0.06), transparent 55%);
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+  pointer-events: none;
+}
+.product-card:hover .product-media::after { opacity: 1; }
+
+/* ─── CATEGORY CARDS ────────────────────────────────────────────────── */
+.category-card {
+  transition:
+    border-color var(--dur-m) var(--ease),
+    transform    340ms        var(--ease-out-quart),
+    box-shadow   340ms        var(--ease-out-quart),
+    background   var(--dur-m) var(--ease) !important;
+}
+.category-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 40px -14px rgba(22,21,15,0.22) !important;
+}
+/* Icono: spring bounce */
+.category-icon {
+  transition: transform 440ms var(--ease-spring) !important;
+}
+.category-card:hover .category-icon {
+  transform: scale(1.22) rotate(-8deg) !important;
+}
+.category-card.is-active .category-icon {
+  transform: scale(1.1) rotate(-4deg) !important;
+}
+
+/* ─── BOTONES — MICROINTERACCIONES ──────────────────────────────────── */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform  200ms var(--ease-out-quart),
+    background var(--dur-s) var(--ease),
+    box-shadow 280ms var(--ease-out-quart) !important;
+}
+.btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 34px -8px rgba(22,21,15,0.44) !important;
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.97) !important;
+  box-shadow: none !important;
+  transition-duration: 65ms !important;
+}
+/* Shine layer */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  opacity: 0;
+  transition: opacity var(--dur-s) var(--ease);
+  pointer-events: none;
+  border-radius: inherit;
+}
+.btn-primary:hover::after { opacity: 1; }
+
+.btn-secondary {
+  transition:
+    border-color var(--dur-s) var(--ease),
+    background   var(--dur-m) var(--ease),
+    transform    200ms        var(--ease-out-quart) !important;
+}
+.btn-secondary:hover {
+  background: var(--stone) !important;
+  transform: translateY(-2px) !important;
+}
+.btn-secondary:active {
+  transform: scale(0.97) !important;
+  transition-duration: 65ms !important;
+}
+
+.btn-amazon {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--dur-s) var(--ease),
+    transform  200ms        var(--ease-out-quart) !important;
+}
+.btn-amazon:hover  { transform: translateY(-2px) !important; }
+.btn-amazon:active { transform: scale(0.97) !important; transition-duration: 65ms !important; }
+
+.btn-view {
+  transition:
+    border-color var(--dur-s) var(--ease),
+    background   var(--dur-m) var(--ease),
+    transform    200ms        var(--ease-out-quart) !important;
+}
+.btn-view:hover  { background: var(--stone) !important; transform: translateY(-1px) !important; }
+
+/* Ripple (elemento creado por premium.js) */
+.rb-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  pointer-events: none;
+  animation: rb-ripple 550ms var(--ease) forwards;
+}
+
+/* ─── HEADER — GLASSMORPHISM MEJORADO ───────────────────────────────── */
+.site-header {
+  transition:
+    border-color    var(--dur-m) var(--ease),
+    box-shadow      var(--dur-m) var(--ease),
+    backdrop-filter var(--dur-l) var(--ease) !important;
+}
+.site-header.is-scrolled {
+  backdrop-filter: blur(24px) saturate(200%) !important;
+  box-shadow: 0 1px 0 var(--line), 0 6px 28px -16px rgba(22,21,15,0.12) !important;
+}
+/* Nav underline más fluida */
+.main-nav a::after {
+  transition: right 280ms var(--ease-out-quart) !important;
+}
+/* Icon buttons */
+.icon-btn {
+  transition: background var(--dur-s) var(--ease), transform 320ms var(--ease-spring) !important;
+}
+.icon-btn:hover { transform: scale(1.1) !important; }
+
+/* ─── BRAND MARK ─────────────────────────────────────────────────────── */
+.brand-mark {
+  transition: transform 420ms var(--ease-spring) !important;
+}
+.brand:hover .brand-mark {
+  transform: rotate(-12deg) scale(1.12) !important;
+}
+
+/* ─── MODAL — ANIMACIÓN PREMIUM ─────────────────────────────────────── */
+.product-modal {
+  transform: translateY(28px) scale(0.95) !important;
+  opacity: 0;
+  transition:
+    transform 420ms var(--ease-out-expo),
+    opacity   300ms var(--ease) !important;
+}
+.modal-overlay.is-open .product-modal {
+  transform: translateY(0) scale(1) !important;
+  opacity: 1;
+}
+.modal-media img {
+  transition: transform 500ms var(--ease-out-expo) !important;
+}
+.modal-close {
+  transition: border-color var(--dur-s) var(--ease), transform 320ms var(--ease-spring) !important;
+}
+.modal-close:hover { transform: scale(1.08) rotate(8deg) !important; }
+
+/* ─── MOBILE NAV — LINKS ESCALONADOS ───────────────────────────────── */
+.mobile-nav.is-open a {
+  animation: rb-fadeUp var(--dur-m) var(--ease-out-expo) both;
+}
+.mobile-nav.is-open a:nth-child(1) { animation-delay: 30ms;  }
+.mobile-nav.is-open a:nth-child(2) { animation-delay: 70ms;  }
+.mobile-nav.is-open a:nth-child(3) { animation-delay: 110ms; }
+.mobile-nav.is-open a:nth-child(4) { animation-delay: 150ms; }
+.mobile-nav.is-open a:nth-child(5) { animation-delay: 190ms; }
+
+/* ─── ABOUT POINTS ───────────────────────────────────────────────────── */
+.about-point {
+  transition: transform 360ms var(--ease-out-quart);
+}
+.about-point:hover { transform: translateX(5px); }
+
+.about-point-label {
+  transition: color var(--dur-m) var(--ease), transform 380ms var(--ease-spring);
+}
+.about-point:hover .about-point-label {
+  color: var(--accent);
+  transform: scale(1.06);
+}
+
+/* ─── FILTER PANEL ───────────────────────────────────────────────────── */
+.filter-option {
+  transition: color var(--dur-s) var(--ease), transform var(--dur-s) var(--ease) !important;
+}
+.filter-option:hover   { transform: translateX(3px) !important; }
+.filter-option.is-active { transform: translateX(3px) !important; }
+
+.search-field input {
+  transition: border-color var(--dur-s) var(--ease), box-shadow 260ms var(--ease) !important;
+}
+.search-field input:focus {
+  box-shadow: 0 0 0 3px var(--glow-accent) !important;
+}
+
+.switch::after {
+  transition: transform 380ms var(--ease-spring) !important;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────── */
+.footer-social .icon-btn {
+  transition: transform 380ms var(--ease-spring), background var(--dur-s) var(--ease) !important;
+}
+.footer-social .icon-btn:hover {
+  transform: translateY(-4px) scale(1.14) !important;
+}
+.footer-col a {
+  transition: color var(--dur-s) var(--ease), transform var(--dur-s) var(--ease) !important;
+}
+.footer-col a:hover { transform: translateX(2px) !important; }
+
+/* ─── CTA BAND ───────────────────────────────────────────────────────── */
+.cta-band {
+  transition: transform var(--dur-l) var(--ease), box-shadow var(--dur-l) var(--ease);
+}
+.cta-band:hover {
+  transform: scale(1.006);
+  box-shadow: 0 40px 80px -30px rgba(22,21,15,0.32);
+}
+
+/* ─── BADGES ─────────────────────────────────────────────────────────── */
+.product-badge {
+  animation: rb-badge-pulse 3.5s ease-in-out 2s infinite;
+}
+
+/* ─── SCROLL PROGRESS BAR (inyectada por JS) ────────────────────────── */
+.rb-scroll-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--accent);
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  animation: rb-bar-appear 0.8s var(--ease) 1.2s forwards;
+  transition: width 60ms linear;
+}
+
+/* ─── SECTION LINKS HOVER ─────────────────────────────────────────────── */
+.eyebrow {
+  transition: letter-spacing var(--dur-m) var(--ease), opacity var(--dur-m) var(--ease);
+}
+
+/* ─── MOBILE — DESACTIVAR INTERACCIONES TÁCTILES PESADAS ─────────────── */
+@media (max-width: 768px) {
+  /* Hero aparece sin animación en móvil (performance) */
+  .hero-copy .eyebrow,
+  .hero-copy h1,
+  .hero-copy p,
+  .hero-cta,
+  #hero-showcase {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .product-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(22,21,15,0.08) !important;
+  }
+  .product-card:hover .product-body { transform: none !important; }
+  .category-card:hover { transform: translateY(-3px) !important; }
+  .category-card:hover .category-icon { transform: scale(1.1) rotate(-4deg) !important; }
+  .cta-band:hover      { transform: none !important; box-shadow: none !important; }
+  .about-point:hover   { transform: none !important; }
+  .filter-option:hover,
+  .filter-option.is-active { transform: none !important; }
+  .footer-col a:hover  { transform: none !important; }
+}
+
+/* ─── PREFERS-REDUCED-MOTION — ACCESIBILIDAD ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy .eyebrow,
+  .hero-copy h1,
+  .hero-copy p,
+  .hero-cta,
+  #hero-showcase {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .product-card,
+  .category-card,
+  .btn-primary,
+  .btn-secondary,
+  .btn-amazon,
+  .btn-view,
+  .curator-note,
+  .brand-mark,
+  .icon-btn,
+  .product-modal,
+  .modal-close,
+  .about-point,
+  .about-point-label,
+  .filter-option,
+  .footer-social .icon-btn,
+  .footer-col a,
+  .cta-band {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .mobile-nav.is-open a { animation: none !important; opacity: 1 !important; }
+  .product-badge { animation: none !important; }
+  .rb-scroll-bar { display: none !important; }
+}
