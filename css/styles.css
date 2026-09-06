@@ -201,12 +201,13 @@ input { font: inherit; color: inherit; }
 .product-card.is-visible { opacity: 1; transform: translateY(0); }
 .product-card:hover { border-color: var(--ink-faint); transform: translateY(-3px); box-shadow: 0 24px 44px -28px rgba(22,21,15,0.42); }
 .product-card:active { transform: translateY(-1px); }
-.product-media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--stone); }
+.product-media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: var(--stone); cursor: pointer; }
 .featured-grid .product-card:first-child .product-media { aspect-ratio: auto; height: 100%; min-height: 280px; max-height: 420px; }
 .product-media img { width: 100%; height: 100%; object-fit: contain; padding: 22px; transition: transform var(--dur-l) var(--ease); }
 .product-card:hover .product-media img { transform: scale(1.045); }
-.product-badge { position: absolute; top: 14px; left: 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--ink); color: var(--bg); padding: 6px 10px; border-radius: 999px; }
-.curator-note { position: absolute; right: 14px; top: 14px; max-width: 168px; background: rgba(250,250,248,0.96); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px 12px; font-family: var(--font-display); font-style: italic; font-size: 12.5px; line-height: 1.35; color: var(--ink-soft); opacity: 0; transform: translateY(-6px); transition: opacity var(--dur-m) var(--ease), transform var(--dur-m) var(--ease); pointer-events: none; }
+.product-badge { position: absolute; top: 14px; left: 14px; z-index: 2; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--ink); color: var(--bg); padding: 6px 10px; border-radius: 999px; }
+.curator-note { position: absolute; right: 14px; top: 14px; z-index: 2; max-width: 168px; background: rgba(250,250,248,0.96); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px 12px; font-family: var(--font-display); font-style: italic; font-size: 12.5px; line-height: 1.35; color: var(--ink-soft); opacity: 0; transform: translateY(-6px); transition: opacity var(--dur-m) var(--ease), transform var(--dur-m) var(--ease); pointer-events: none; }
+.product-media img { position: relative; z-index: 1; }
 .curator-note::before { content: "\201C"; color: var(--accent); font-size: 16px; margin-right: 2px; }
 .product-card:hover .curator-note, .product-card:focus-within .curator-note { opacity: 1; transform: translateY(0); }
 .product-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
@@ -368,12 +369,7 @@ body.modal-open { overflow: hidden; }
   .modal-body { padding: 64px 24px 32px; }
   .modal-close { top: 16px; right: 16px; }
   .hero { padding: 48px 0 64px; }
-  /* FIX: carousel — portrait ratio + ocultar desc para dar espacio a la imagen */
-  #hero-showcase { aspect-ratio: 1 / 1; }
-  .sc-desc { display: none; }
-  .sc-img img { padding: 24px; }
-  .sc-nav { display: none; }
-  .sc-info { margin: 12px; padding: 11px 13px; }
+  /* showcase mobile — see end of file */
 }
 
 @media (max-width: 480px) {
@@ -415,4 +411,46 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 1024px) {
   #hero-showcase { aspect-ratio: 16 / 7; max-width: 100%; }
   .sc-nav { opacity: 1; }
+}
+
+/* ── MOBILE SHOWCASE ≤700px ─────────────────────────────────────────
+   Tarjeta de texto editorial: sin imagen (los archivos no siempre
+   están en el servidor), sin flechas, compacta y limpia.
+   Esta sección va al FINAL para que el cascade funcione correctamente.
+   ─────────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  #hero-showcase {
+    aspect-ratio: unset !important;
+    height: 152px;
+  }
+  /* Ocultar imagen y flechas en móvil */
+  .sc-img { display: none !important; }
+  .sc-nav { display: none !important; }
+  .sc-tag { display: none !important; }
+  /* El slide se estira para llenar la tarjeta */
+  .sc-slide { align-items: stretch; }
+  /* Info card ocupa todo el espacio disponible */
+  .sc-info {
+    position: static;
+    flex: 1;
+    margin: 0;
+    max-width: 100%;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    padding: 16px 20px 38px 20px;
+    border-left: 3px solid var(--accent);
+    justify-content: center;
+  }
+  .sc-cat  { display: block; margin-bottom: 6px; }
+  .sc-name { font-size: 16px; margin: 0; }
+  .sc-desc { display: none; }
+  /* Dots centrados en la parte inferior */
+  .sc-dots {
+    bottom: 10px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
