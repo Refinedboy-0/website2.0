@@ -192,6 +192,13 @@
         if (e.key === "Enter" && !e.target.closest("a,button")) openModal(Number(card.dataset.id));
       });
     });
+    // Tocar/clicar la imagen del producto abre el modal, igual que "Details".
+    root.querySelectorAll(".product-media").forEach((media) => {
+      media.addEventListener("click", () => {
+        const card = media.closest(".product-card");
+        if (card) openModal(Number(card.dataset.id));
+      });
+    });
   }
 
   function isValidProductUrl(url) {
