@@ -1,4 +1,11 @@
-User-agent: *
+from pathlib import Path
+
+robots = """User-agent: *
 Allow: /
 
-Sitemap: https://fernando-max-8.github.io/website/sitemap.xml
+Sitemap: https://refinedboy-0.github.io/-/sitemap.xml
+"""
+
+path = Path("/mnt/data/robots.txt")
+path.write_text(robots, encoding="utf-8")
+print(f"Creado: {path}")

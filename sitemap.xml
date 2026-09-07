@@ -1,18 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+from pathlib import Path
+
+sitemap = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- Página principal -->
   <url>
-    <loc>https://fernando-max-8.github.io/website/</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://refinedboy-0.github.io/-/</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://fernando-max-8.github.io/website/images/og-cover.jpg</image:loc>
+      <image:loc>https://refinedboy-0.github.io/-/images/og-cover.jpg</image:loc>
       <image:title>refinedboy — Curated Skincare, Hair &amp; Beauty Picks</image:title>
       <image:caption>Independent editorial brand curating skincare and beauty essentials for men</image:caption>
     </image:image>
   </url>
 
 </urlset>
+
+path = Path("/mnt/data/sitemap.xml")
+path.write_text(sitemap, encoding="utf-8")
+print(f"Creado: {path}")
