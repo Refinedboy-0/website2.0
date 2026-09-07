@@ -23,7 +23,7 @@ const siteConfig = {
 
   hero: {
     eyebrow: "An independent selection",
-    heading: "Curated skincare, hair and beauty picks for everyday routines.",
+    heading: "The best skin care products, we have everything you need.",
     subheading:
       "Explore a considered shortlist of skincare, body care, hair care and beauty essentials for your everyday routine.",
     ctaLabel: "Explore the selection",

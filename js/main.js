@@ -528,10 +528,10 @@
 
   /* ------------------------------------------------------------------
      SEO — Dynamic Product Schema (ItemList + Product)
-     Inyecta 30 productos con schema.org para Google rich snippets.
+     Inyecta productos con schema.org para Google rich snippets.
      Google Indexing API puede tardar unos días en procesar esto.
      ------------------------------------------------------------------ */
-  var SITE_URL = "https://fernando-max-8.github.io/website/";
+  var SITE_URL = "https://refinedboy-0.github.io/-/";
 
   function injectProductSchema() {
     var schema = {
